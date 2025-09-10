@@ -1,0 +1,491 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@layer base {
+  :root {
+    /* Updated to professional black theme with gold/blue accents */
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #0a0a0a;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
+    --primary: #ffd700;
+    --primary-foreground: #000000;
+    --secondary: #00bfff;
+    --secondary-foreground: #000000;
+    --muted: #1a1a1a;
+    --muted-foreground: #cccccc;
+    --accent: #ff6b35;
+    --accent-foreground: #ffffff;
+    --destructive: #ff0040;
+    --destructive-foreground: #ffffff;
+    --border: #333333;
+    --input: #0a0a0a;
+    --ring: rgba(255, 215, 0, 0.5);
+    --chart-1: #ffd700;
+    --chart-2: #00bfff;
+    --chart-3: #ff6b35;
+    --chart-4: #00ff88;
+    --chart-5: #ff00aa;
+    --radius: 0.5rem;
+    --sidebar: #0a0a0a;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #000000;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #ff6b35;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #333333;
+    --sidebar-ring: rgba(255, 215, 0, 0.5);
+  }
+
+  .dark {
+    /* Enhanced dark mode with deeper blacks and brighter accents */
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #050505;
+    --card-foreground: #ffffff;
+    --popover: #000000;
+    --popover-foreground: #ffffff;
+    --primary: #ffd700;
+    --primary-foreground: #000000;
+    --secondary: #00bfff;
+    --secondary-foreground: #000000;
+    --muted: #0f0f0f;
+    --muted-foreground: #aaaaaa;
+    --accent: #ff6b35;
+    --accent-foreground: #ffffff;
+    --destructive: #ff0040;
+    --destructive-foreground: #ffffff;
+    --border: #222222;
+    --input: #050505;
+    --ring: rgba(255, 215, 0, 0.6);
+    --chart-1: #ffd700;
+    --chart-2: #00bfff;
+    --chart-3: #ff6b35;
+    --chart-4: #00ff88;
+    --chart-5: #ff00aa;
+    --sidebar: #050505;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #000000;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #ff6b35;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #222222;
+    --sidebar-ring: rgba(255, 215, 0, 0.6);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Enhanced professional font stack and sophisticated background */
+    font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Courier New", monospace;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.05) 0%, transparent 50%),
+      linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+    background-attachment: fixed;
+  }
+
+  /* Enhanced cyberpunk animations and effects */
+  @keyframes matrix-rain {
+    0% {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+
+  @keyframes glitch {
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @keyframes neon-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor, 0 0 20px currentColor;
+    }
+    50% {
+      box-shadow: 0 0 2px currentColor, 0 0 5px currentColor, 0 0 8px currentColor, 0 0 12px currentColor;
+    }
+  }
+
+  @keyframes terminal-cursor {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes scan-line {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes data-stream {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+
+  /* Added professional activation animations and enhanced effects */
+  @keyframes activation-pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 20px rgba(255, 215, 0, 0);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+  }
+
+  @keyframes system-boot {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(10px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes neural-network {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes hologram-flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    98% {
+      opacity: 1;
+    }
+    99% {
+      opacity: 0.8;
+    }
+    99.5% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes data-flow {
+    0% {
+      transform: translateX(-100%) rotate(0deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100vw) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes welcome-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px) scale(0.8);
+      filter: blur(10px);
+    }
+    50% {
+      opacity: 0.7;
+      transform: translateY(-20px) scale(0.9);
+      filter: blur(5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blink-cursor {
+    0%,
+    50% {
+      border-color: #ffd700;
+    }
+    51%,
+    100% {
+      border-color: transparent;
+    }
+  }
+
+  @keyframes logo-glow {
+    0%,
+    100% {
+      text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+    }
+    50% {
+      text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700, 0 0 50px #00bfff;
+    }
+  }
+
+  .matrix-rain {
+    animation: matrix-rain 3s linear infinite;
+  }
+
+  .glitch-effect {
+    animation: glitch 0.3s ease-in-out infinite;
+  }
+
+  .neon-glow {
+    animation: neon-pulse 2s ease-in-out infinite;
+  }
+
+  .terminal-cursor::after {
+    content: "█";
+    animation: terminal-cursor 1s infinite;
+    color: #ffd700;
+  }
+
+  .scan-line {
+    animation: scan-line 2s ease-in-out infinite;
+  }
+
+  .data-stream {
+    animation: data-stream 4s linear infinite;
+  }
+
+  .activation-pulse {
+    animation: activation-pulse 2s ease-in-out infinite;
+  }
+
+  .system-boot {
+    animation: system-boot 0.8s ease-out forwards;
+  }
+
+  .neural-network {
+    background: linear-gradient(-45deg, transparent, rgba(255, 215, 0, 0.1), transparent, rgba(0, 191, 255, 0.1));
+    background-size: 400% 400%;
+    animation: neural-network 3s ease-in-out infinite;
+  }
+
+  .hologram-flicker {
+    animation: hologram-flicker 0.1s infinite linear;
+  }
+
+  .data-flow {
+    animation: data-flow 6s linear infinite;
+  }
+
+  .welcome-animation {
+    animation: welcome-fade-in 2s ease-out forwards;
+  }
+
+  .typewriter {
+    overflow: hidden;
+    border-right: 3px solid #ffd700;
+    white-space: nowrap;
+    animation: typewriter 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+  }
+
+  .logo-glow {
+    animation: logo-glow 3s ease-in-out infinite;
+  }
+
+  /* Enhanced professional styling with sophisticated animations */
+  .hacker-button {
+    position: relative;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(255, 215, 0, 0.1), rgba(0, 0, 0, 0.8));
+    border: 2px solid #ffd700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+    font-weight: 700;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .hacker-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    transition: left 0.6s;
+  }
+
+  .hacker-button:hover::before {
+    left: 100%;
+  }
+
+  .hacker-button:hover {
+    background: rgba(255, 215, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.1);
+    transform: translateY(-3px) scale(1.02);
+    border-color: #ffed4e;
+  }
+
+  .hacker-button:active {
+    transform: translateY(-1px) scale(1.01);
+  }
+
+  .terminal-card {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(255, 215, 0, 0.03)),
+      linear-gradient(45deg, transparent 30%, rgba(0, 191, 255, 0.02) 50%, transparent 70%);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 215, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .terminal-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ffd700, #00bfff, transparent);
+    animation: scan-line 4s ease-in-out infinite;
+  }
+
+  /* Enhanced matrix background with professional particle effects */
+  .matrix-bg::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(255, 215, 0, 0.02) 3px,
+        rgba(255, 215, 0, 0.02) 6px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 191, 255, 0.02) 3px,
+        rgba(0, 191, 255, 0.02) 6px
+      );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .matrix-bg::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+}
