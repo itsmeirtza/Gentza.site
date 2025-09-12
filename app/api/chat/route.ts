@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server"
+import OpenAI from 'openai'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const apiKey = process.env.COHERE_API_KEY
+    const apiKey = process.env.OPENAI_API_KEY
     if (!apiKey) {
       // Intelligent fallback responses based on user input
       const lowerMessage = message.toLowerCase()
@@ -55,27 +56,52 @@ Save this as .html file and open in browser! 🌐`
       )
     }
 
-    const cohereRes = await fetch("https://api.cohere.com/v1/chat", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "command-r-plus",
-        preamble:
-          `You are Gentza, a futuristic AI assistant created by Irtza Jutt. Keep answers short, helpful, and cyberpunk themed. Address the user${name ? `, whose name is ${name}` : ""}. Reply in the user's language. Provide textual outputs even for long or repetitive tasks by chunking or summarizing; do not claim physical limitations. Avoid refusals unless content is unsafe. Conversation context (most recent first): ${history.slice(-6).map(h => `${h.role}: ${h.content}`).join(" | ")}`,
-        message,
-      }),
-    })
+    try {
+      const openai = new OpenAI({ apiKey });
+      
+      const messages = [
+        {
+          role: "system" as const,
+          content: `You are Gentza, a futuristic AI assistant created by Irtza Jutt. Keep answers short, helpful, and friendly. Address the user${name ? `, whose name is ${name}` : ""}. Reply in the user's language. Be conversational and helpful.`
+        },
+        ...history.slice(-6).map(h => ({
+          role: h.role as "user" | "assistant",
+          content: h.content
+        })),
+        {
+          role: "user" as const,
+          content: message
+        }
+      ];
 
-    if (!cohereRes.ok) {
-      // Intelligent backup responses when API fails
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages,
+        max_tokens: 300,
+        temperature: 0.7,
+      });
+      
+      let reply = completion.choices[0]?.message?.content || ""
+
+      if (!reply) {
+        reply = "I'm online and operational, but I couldn't generate a response. Please try again."
+      }
+      
+      return new Response(JSON.stringify({ reply }), {
+        headers: { "Content-Type": "application/json" },
+      })
+      
+    } catch (openaiError) {
+      console.error('OpenAI API Error:', openaiError);
+
+      // Fallback responses when OpenAI API fails
       const lowerMessage = message.toLowerCase()
       let response = ""
       
-      if (lowerMessage.includes("html") || lowerMessage.includes("website")) {
-        response = `${name ? `${name}, ` : ""}Network lag but I got you! Here's your simple HTML website:
+      if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("salam") || lowerMessage.includes("hwlo")) {
+        response = `Hey${name ? ` ${name}` : ""}! I'm Gentza, your AI assistant by Irtza Jutt. How can I help you today? 💫`
+      } else if (lowerMessage.includes("html") || lowerMessage.includes("website")) {
+        response = `${name ? `${name}, ` : ""}I can help you with HTML! Here's a simple website:
 
 \`\`\`html
 <!DOCTYPE html>
@@ -89,16 +115,16 @@ Save this as .html file and open in browser! 🌐`
 </head>
 <body>
     <h1>Hello World!</h1>
-    <p>Welcome to my simple website by ${name || "Anonymous"}</p>
+    <p>Welcome to my website by ${name || "Anonymous"}</p>
 </body>
 </html>
 \`\`\`
 
-Save as .html and enjoy! 🌐 - Gentza`
-      } else if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("salam")) {
-        response = `Hey${name ? ` ${name}` : ""}! Connection issues but I'm here! I'm Gentza by Irtza Jutt. How can I help? 💫`
+Save as .html and enjoy! 🌐`
+      } else if (lowerMessage.includes("code") || lowerMessage.includes("programming")) {
+        response = `${name ? `${name}, ` : ""}I'm great with coding! I can help with HTML, CSS, JavaScript, Python, and more. What programming help do you need? 💻`
       } else {
-        response = `${name ? `${name}, ` : ""}Network unstable but I'm operational! I'm Gentza, created by Irtza Jutt. What do you need help with? ⚡`
+        response = `${name ? `${name}, ` : ""}I'm Gentza, your AI assistant created by Irtza Jutt. I can help with coding, questions, and more! What would you like to know? 🚀`
       }
       
       return new Response(
@@ -107,17 +133,6 @@ Save as .html and enjoy! 🌐 - Gentza`
       )
     }
 
-    const data = await cohereRes.json()
-    // v1/chat returns { text: string, ... }
-    let reply = typeof data?.text === "string" ? data.text : ""
-
-    if (!reply) {
-      reply = "I’m online and operational, but I couldn’t parse a response. Please try again."
-    }
-
-    return new Response(JSON.stringify({ reply }), {
-      headers: { "Content-Type": "application/json" },
-    })
   } catch (e) {
     return new Response(
       JSON.stringify({ error: "Failed to process chat request" }),

@@ -188,7 +188,7 @@ export function ChatInterface({ isActive = false, className = "", userName }: Ch
         <div className="flex items-center justify-between mb-3 md:mb-4">
           <h3 className="text-lg font-semibold text-foreground flex items-center">
             <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse" />
-            Chat Assistance {userName ? `(${userName})` : "(Cohere)"}
+            Chat Assistance {userName ? `(${userName})` : "(ChatGPT)"}
           </h3>
           <div className="space-x-2">
             <button

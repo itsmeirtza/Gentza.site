@@ -1,12 +1,16 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { GentzaAvatar } from "@/components/gentza-avatar"
 import { StatusIndicator } from "@/components/status-indicator"
 import { ChatInterface } from "@/components/chat-interface"
 import { WelcomeScreen } from "@/components/welcome-screen"
 import { HackingAnim } from "@/components/hacking-anim"
 import { NamePrompt } from "@/components/name-prompt"
+import dynamic from "next/dynamic"
+import SimpleVoiceAssistant from "@/components/voice-assistant/SimpleVoiceAssistant"
+
+const HackerConsole = dynamic(() => import("@/components/hacker-console"), { ssr: false })
 
 export default function GentzaInterface() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -36,11 +40,23 @@ export default function GentzaInterface() {
   }, [isActive])
 
   if (showWelcome) {
-    return <WelcomeScreen onComplete={handleWelcomeComplete} />
+    return (
+      <div className="min-h-screen bg-background relative overflow-hidden">
+        <div className="fixed inset-0 -z-10 pointer-events-none">
+          <HackerConsole />
+        </div>
+        <WelcomeScreen onComplete={handleWelcomeComplete} />
+      </div>
+    )
   }
 
   return (
     <div className="min-h-screen bg-background matrix-bg flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Hacker background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <HackerConsole />
+      </div>
+
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 80 }).map((_, i) => (
           <div
@@ -91,7 +107,7 @@ export default function GentzaInterface() {
           </h1>
           <p className="text-secondary font-mono text-lg uppercase tracking-wider">[DIGITAL_INTERFACE_v3.0]</p>
           <div className="text-accent font-mono text-sm mt-2">
-            STATUS:{" "}
+            STATUS{" "}
             <span className={`terminal-cursor ${isActive ? "text-primary" : "text-muted-foreground"}`}>
               {isActive ? "ACTIVE" : isActivating ? "INITIALIZING" : "STANDBY"}
             </span>
@@ -106,10 +122,7 @@ export default function GentzaInterface() {
 
           <div className="system-boot col-span-full" style={{ animationDelay: "0.2s" }}>
             <div className="max-w-3xl mx-auto w-full">
-              <ChatInterface
-                isActive={isActive}
-                userName={userName ?? undefined}
-              />
+              <ChatInterface isActive={isActive} userName={userName ?? undefined} />
             </div>
           </div>
         </div>
@@ -120,11 +133,11 @@ export default function GentzaInterface() {
         >
           <p>&gt; POWERED_BY: [INTERFACE_ONLY]</p>
           <div className="text-primary/60 mt-2">
-            &gt; SECURITY_STATUS: <span className="text-secondary">ENCRYPTED</span> | CONNECTION:{" "}
+            &gt; SECURITY_STATUS: <span className="text-secondary">ENCRYPTED</span> | CONNECTION{" "}
             <span className="text-primary">SECURE_TUNNEL</span>
           </div>
           <div className="text-xs mt-1 text-accent/60">
-            DEVELOPER: <span className="text-primary">IRTZA_JUTT</span> | VERSION:{" "}
+            DEVELOPER: <span className="text-primary">IRTZA_JUTT</span> | VERSION{" "}
             <span className="text-secondary">3.0_INTERFACE</span>
           </div>
         </div>
@@ -138,6 +151,12 @@ export default function GentzaInterface() {
           setUserName(name)
         }}
       />
+
+      {/* Voice Assistant */}
+      <div className="fixed bottom-6 right-6 w-96 z-50">
+        <SimpleVoiceAssistant />
+      </div>
+
     </div>
   )
 }
