@@ -12,7 +12,7 @@ export function StatusIndicator({ isActive, isListening, isSpeaking, className =
     if (isSpeaking) return "Speaking..."
     if (isListening) return "Listening..."
     if (isActive) return "Ready"
-    return 'Say "Hello Gentza" to activate'
+    return "Standby"
   }
 
   const getStatusColor = () => {

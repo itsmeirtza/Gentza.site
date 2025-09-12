@@ -7,10 +7,16 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Gentza - AI Voice Assistant",
-  description: "Your futuristic AI voice assistant with holographic interface",
+  title: "Gentza - Digital Interface",
+  description: "Modern digital interface with futuristic design",
   generator: "v0.app",
 }
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+} as const
 
 export default function RootLayout({
   children,

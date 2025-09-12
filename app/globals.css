@@ -351,6 +351,25 @@
     animation: scan-line 2s ease-in-out infinite;
   }
 
+  /* Hacking overlay animations */
+  @keyframes hacking-column-fall {
+    0% { transform: translateY(-120vh); }
+    100% { transform: translateY(120vh); }
+  }
+  .hacking-column {
+    animation: hacking-column-fall linear infinite;
+  }
+
+  @keyframes hacking-scan-move {
+    0%   { transform: translateY(-100%); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+  .hacking-scan {
+    animation: hacking-scan-move 3s ease-in-out infinite;
+  }
+
   .data-stream {
     animation: data-stream 4s linear infinite;
   }
