@@ -1,4 +1,4 @@
-# Gentza MVP features
+# Gentza.site - AI Voice Assistant
 
 *Automatically synced with your [v0.app](https://v0.app) deployments*
 
@@ -7,8 +7,14 @@
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+Gentza is an advanced AI voice assistant with:
+- 🎤 Voice Recognition and Speech-to-Text
+- 🤖 OpenAI ChatGPT Integration  
+- 🔊 ElevenLabs Text-to-Speech
+- 🔍 Google Search API Integration
+- 💬 Interactive Chat Interface
+
+**Latest Update**: Complete voice assistant system with chat interface, manual voice activation, and real-time AI responses.
 
 ## Deployment
 
