@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
+const getOpenAI = () => {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey || apiKey === 'your_openai_api_key_here') {
+    return null;
+  }
+  return new OpenAI({ apiKey });
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,6 +15,15 @@ export async function POST(request: NextRequest) {
 
     if (!query) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
+    }
+
+    const openai = getOpenAI();
+    if (!openai) {
+      // Fallback response when OpenAI is not configured
+      return NextResponse.json({
+        content: "I'm Gentza, your AI assistant! I'm currently running in demo mode. Please configure the OpenAI API key for full functionality.",
+        role: 'assistant'
+      });
     }
 
     let systemPrompt = `You are Gentza, a helpful AI voice assistant created by Irtza Jutt. You are warm, friendly, and provide helpful responses. Keep your responses conversational and not too long since they will be spoken aloud.`;

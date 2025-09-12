@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     }
 
     const apiKey = process.env.OPENAI_API_KEY
-    if (!apiKey) {
+    if (!apiKey || apiKey === 'your_openai_api_key_here') {
       // Intelligent fallback responses based on user input
       const lowerMessage = message.toLowerCase()
       let response = ""

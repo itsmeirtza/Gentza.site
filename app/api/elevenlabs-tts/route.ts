@@ -10,8 +10,12 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 });
+    if (!apiKey || apiKey === 'your_elevenlabs_api_key_here') {
+      // Fallback to browser speech synthesis
+      return NextResponse.json(
+        { error: 'ElevenLabs API not configured, using fallback' }, 
+        { status: 503 }
+      );
     }
 
     const response = await axios.post(
