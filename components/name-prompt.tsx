@@ -44,7 +44,7 @@ export function NamePrompt({
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Ali, Ayesha"
+            placeholder="e.g. Irtza, Tehreem"
             className="w-full rounded-md border border-border bg-input px-4 py-2 font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
 

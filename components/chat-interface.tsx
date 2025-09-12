@@ -65,11 +65,18 @@ export function ChatInterface({ isActive = false, className = "", userName }: Ch
   const listRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  // Persist messages
+  // Persist messages and auto-scroll
   useEffect(() => {
     try {
       localStorage.setItem(storageKey, JSON.stringify(messages))
     } catch {}
+    
+    // Auto-scroll to bottom when messages change
+    setTimeout(() => {
+      if (listRef.current) {
+        listRef.current.scrollTop = listRef.current.scrollHeight
+      }
+    }, 100)
   }, [messages])
 
   const copyToClipboard = async (text: string) => {
