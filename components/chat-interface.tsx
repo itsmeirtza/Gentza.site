@@ -156,7 +156,6 @@ export function ChatInterface({ isActive = false, className = "", userName }: Ch
               : "bg-accent/20 text-accent-foreground border border-accent/30"
           }`}
         >
-          <div className="text-xs opacity-70 mb-1">{m.role === "user" ? (userName || "You") : "Gentza"}</div>
           <div className="text-sm leading-relaxed whitespace-pre-wrap">
             {m.content}
           </div>
@@ -213,7 +212,6 @@ export function ChatInterface({ isActive = false, className = "", userName }: Ch
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-accent/20 text-accent-foreground border border-accent/30 p-3 rounded-lg">
-                  <div className="text-xs opacity-70 mb-1">Gentza</div>
                   <div className="flex items-center space-x-1">
                     <div className="w-2 h-2 bg-accent rounded-full animate-bounce" />
                     <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
