@@ -125,10 +125,11 @@ export function ChatInterface({ isActive = false, className = "", userName }: Ch
         if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight
         if (inputRef.current) inputRef.current.focus()
       }, 0)
-    } catch (e) {
+    } catch (e: any) {
+      const errorMessage = e?.message || data?.error || "Failed to connect to AI service. Please check your connection and try again."
       setMessages((m) => [
         ...m,
-        { id: (Date.now() + 1).toString(), role: "assistant", content: "System error — please try again." },
+        { id: (Date.now() + 1).toString(), role: "assistant", content: `Error: ${errorMessage}` },
       ])
     } finally {
       setLoading(false)
