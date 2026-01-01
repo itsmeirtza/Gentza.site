@@ -16,7 +16,9 @@ export async function POST(req: NextRequest) {
 
     // OpenRouter API Key - can be set via environment variable or use the provided key
     const apiKey = process.env.OPENROUTER_API_KEY || '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'
-    if (!apiKey || apiKey === 'your_openai_api_key_here') {
+    
+    // Skip fallback if we have a valid OpenRouter key
+    if (!apiKey) {
       // Intelligent fallback responses based on user input
       const lowerMessage = message.toLowerCase()
       let response = ""

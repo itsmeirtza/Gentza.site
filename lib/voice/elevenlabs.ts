@@ -85,14 +85,4 @@ export class TextToSpeechService {
     }
   }
 
-  // Get available ElevenLabs voices
-  static async getVoices(): Promise<any[]> {
-    try {
-      const response = await axios.get('/api/elevenlabs-voices');
-      return response.data.voices || [];
-    } catch (error) {
-      console.error('Error fetching voices:', error);
-      return [];
-    }
-  }
 }
