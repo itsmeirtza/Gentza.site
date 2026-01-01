@@ -1,5 +1,4 @@
 import type { NextRequest } from "next/server"
-import OpenAI from 'openai'
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,18 +23,9 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const openai = new OpenAI({ 
-      apiKey,
-      baseURL: 'https://openrouter.ai/api/v1',
-      defaultHeaders: {
-        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://gentza.site',
-        'X-Title': 'Gentza AI Assistant'
-      }
-    });
-    
     const messages = [
       {
-        role: "system" as const,
+        role: "system",
         content: `You are Gentza, a futuristic AI assistant created by Irtza Jutt. Keep answers helpful, friendly, and conversational. Address the user${name ? `, whose name is ${name}` : ""}. Reply in the user's language. Be natural and engaging.`
       },
       ...history.slice(-10).map(h => ({
@@ -43,19 +33,40 @@ export async function POST(req: NextRequest) {
         content: h.content
       })),
       {
-        role: "user" as const,
+        role: "user",
         content: message
       }
     ];
 
-    const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4-turbo",
-      messages,
-      max_tokens: 1000,
-      temperature: 0.7,
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://gentza.site',
+        'X-Title': 'Gentza AI Assistant'
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-4-turbo",
+        messages,
+        max_tokens: 1000,
+        temperature: 0.7,
+      })
     });
-    
-    const reply = completion.choices[0]?.message?.content || ""
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      const errorText = await response.text().catch(() => '')
+      console.error('OpenRouter API Error:', response.status, errorData, errorText)
+      
+      return new Response(
+        JSON.stringify({ error: errorData?.error?.message || errorText || `API request failed with status ${response.status}` }),
+        { status: response.status, headers: { "Content-Type": "application/json" } },
+      )
+    }
+
+    const data = await response.json()
+    const reply = data?.choices?.[0]?.message?.content || ""
 
     if (!reply) {
       return new Response(
