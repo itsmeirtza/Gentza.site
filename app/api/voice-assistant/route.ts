@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
           content: userMessage
         }
       ],
-      model: "gpt-3.5-turbo",
+      model: "gpt-4-turbo",
       max_tokens: 200, // Keep responses concise for voice
       temperature: 0.7,
     });

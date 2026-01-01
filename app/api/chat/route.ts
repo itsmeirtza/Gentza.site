@@ -14,7 +14,8 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const apiKey = process.env.OPENAI_API_KEY
+    // OpenRouter API Key - can be set via environment variable or use the provided key
+    const apiKey = process.env.OPENROUTER_API_KEY || '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'
     if (!apiKey || apiKey === 'your_openai_api_key_here') {
       // Intelligent fallback responses based on user input
       const lowerMessage = message.toLowerCase()
@@ -57,7 +58,15 @@ Save this as .html file and open in browser! 🌐`
     }
 
     try {
-      const openai = new OpenAI({ apiKey });
+      // OpenRouter uses OpenAI-compatible API with custom base URL
+      const openai = new OpenAI({ 
+        apiKey,
+        baseURL: 'https://openrouter.ai/api/v1',
+        defaultHeaders: {
+          'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://gentza.site',
+          'X-Title': 'Gentza AI Assistant'
+        }
+      });
       
       const messages = [
         {
@@ -74,8 +83,9 @@ Save this as .html file and open in browser! 🌐`
         }
       ];
 
+      // Using a good default model from OpenRouter - you can change this to any model you prefer
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "openai/gpt-4-turbo",
         messages,
         max_tokens: 300,
         temperature: 0.7,
